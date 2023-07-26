@@ -1,6 +1,14 @@
 import { Helmet } from 'react-helmet-async';
+import { Offer } from '../../types/offer-types';
+import { Review } from '../../types/review-types';
 
-export default function OfferPage() {
+type OfferPageProps = {
+  offers: Offer[];
+  reviews: Review[];
+}
+
+
+export default function OfferPage({offers, reviews}: OfferPageProps) {
   return (
     <div className="page">
       <Helmet>

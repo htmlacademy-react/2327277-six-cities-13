@@ -1,11 +1,17 @@
-import Card from '../../components/card/card';
+// import Card from '../../components/card/card';
+import { OffersList } from '../../components/offers-list/offers-list';
 import { Helmet } from 'react-helmet-async';
+import { OfferPreview } from '../../types/offer-types';
+import { AppRoute } from '../../const';
+import { Link } from 'react-router-dom';
 
 type MainPageProps = {
   offersCount: number;
+  offersList: OfferPreview[];
+
 };
 
-export default function MainPage({offersCount}:MainPageProps) {
+export default function MainPage({offersCount, offersList}:MainPageProps) {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -30,9 +36,9 @@ export default function MainPage({offersCount}:MainPageProps) {
                   </a>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
+                  <Link className="header__nav-link" to={ AppRoute.Login }>
                     <span className="header__signout">Sign out</span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -82,7 +88,7 @@ export default function MainPage({offersCount}:MainPageProps) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{offersCount} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -98,11 +104,7 @@ export default function MainPage({offersCount}:MainPageProps) {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {Array.from({length:offersCount}, (_,index)=>(
-                  <Card key={index}/>
-                ))}
-              </div>
+              <OffersList offers={offersList}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
