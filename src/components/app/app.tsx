@@ -25,7 +25,8 @@ export default function App({offersCount, offersList, offers, reviews}: AppProps
         <Routes>
           <Route path={AppRoute.Root}
             element={
-              <MainPage offersCount={offersCount}
+              <MainPage
+                offersCount = {offersCount}
                 offersList = {offersList}
               />
             }
@@ -33,8 +34,7 @@ export default function App({offersCount, offersList, offers, reviews}: AppProps
           <Route path={AppRoute.Favorites}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <FavoritesPage/>
-                {/* <FavoritesPage offersList={offersList}/> */}
+                <FavoritesPage offersList = {offersList}/>
               </PrivateRoute>
             }
           />
