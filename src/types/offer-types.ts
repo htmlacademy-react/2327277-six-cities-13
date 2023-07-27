@@ -17,32 +17,32 @@ type Host = {
 
 export type OfferPreview = {
   id: string;
-title: string;
-type: string;
-price: number;
-city: City;
-location: Location;
-isFavorite: boolean;
-isPremium: boolean;
-rating: number;
-previewImage: string;
+  title: string;
+  type: string;
+  price: number;
+  city: City;
+  location: Location;
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+  previewImage: string;
 }
 
 export type Offer = {
-id: string;
-title: string;
-type: string;
-price: number;
-city: City;
-location: Location;
-isFavorite: boolean;
-isPremium: boolean;
-rating: number;
-description: string;
-bedrooms: number;
-goods: string[];
-host: Host;
-images: string[];
-maxAdults: number;
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  city: City;
+  location: Location;
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: Host;
+  images: string[];
+  maxAdults: number;
 }
 

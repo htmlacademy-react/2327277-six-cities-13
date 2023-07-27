@@ -118,7 +118,7 @@ export default function OfferPage({offers, reviews}: OfferPageProps) {
                     {offer.host.name}
                   </span>
                   <span className="offer__user-status">
-                    { offer.host.isPro ? 'Pro' : '' }
+                    {offer.host.isPro ? 'Pro' : ''}
                   </span>
                 </div>
                 <div className="offer__description">
