@@ -14,7 +14,7 @@ export function FavoritesList({offers, cities}:FavoritesListProps) {
           <div className="favorites__locations locations locations--current">
             <div className="locations__item">
               <a className="locations__item-link" href='#'>
-                <span>{ city }</span>
+                <span>{city}</span>
               </a>
             </div>
           </div>

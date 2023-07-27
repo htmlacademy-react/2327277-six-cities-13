@@ -45,7 +45,7 @@ export default function App({offersCount, offersList, offers, reviews}: AppProps
               </PrivateRoute>
             }
           />
-          <Route path={ `${AppRoute.Offer}/:id` }
+          <Route path={`${AppRoute.Offer}/:id`}
             element={<OfferPage offers = {offers} reviews = {reviews}/>}
           />
           <Route path="*"

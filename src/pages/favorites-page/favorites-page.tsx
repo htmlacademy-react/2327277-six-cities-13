@@ -10,14 +10,7 @@ type FavoritesPageProps = {
 
 export default function FavoritesPage({offersList}:FavoritesPageProps) {
   const favoriteOffers = offersList.filter((offer) => offer.isFavorite);
-  // const favoriteCities = favoriteOffers.reduce<string[]>((acc, item) => acc.includes(item.city.name) ? [...acc, item.city.name] : acc, []);
-  const favoriteCities = favoriteOffers.reduce<string[]>((acc, item) => {
-    const cityName = item.city.name;
-    if (!acc.includes(cityName)) {
-      acc.push(cityName);
-    }
-    return acc;
-  }, []);
+  const favoriteCities = favoriteOffers.reduce<string[]>((acc, item) => acc.includes(item.city.name) ? [...acc, item.city.name] : acc, []);
   return (
     <div className="page">
       <Helmet>
@@ -42,7 +35,7 @@ export default function FavoritesPage({offersList}:FavoritesPageProps) {
                   </a>
                 </li>
                 <li className="header__nav-item">
-                  <Link className="header__nav-link" to={ AppRoute.Login }>
+                  <Link className="header__nav-link" to={AppRoute.Login}>
                     <span className="header__signout">Sign out</span>
                   </Link>
                 </li>
@@ -57,13 +50,13 @@ export default function FavoritesPage({offersList}:FavoritesPageProps) {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <FavoritesList offers = { favoriteOffers } cities = { favoriteCities }/>
+              <FavoritesList offers = {favoriteOffers} cities = {favoriteCities}/>
             </ul>
           </section>
         </div>
       </main>
       <footer className="footer container">
-        <Link className="footer__logo-link" to={ AppRoute.Root }>
+        <Link className="footer__logo-link" to={AppRoute.Root}>
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </Link>
       </footer>

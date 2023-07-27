@@ -40,7 +40,7 @@ export default function OfferPage({offers, reviews}: OfferPageProps) {
                   </a>
                 </li>
                 <li className="header__nav-item">
-                  <Link className="header__nav-link" to={ AppRoute.Login }>
+                  <Link className="header__nav-link" to={AppRoute.Login}>
                     <span className="header__signout">Sign out</span>
                   </Link>
                 </li>
@@ -56,7 +56,7 @@ export default function OfferPage({offers, reviews}: OfferPageProps) {
             <div className="offer__gallery">
               {offer.images.map((item) => (
                 <div key={item} className="offer__image-wrapper">
-                  <img className="offer__image" src={ item } alt="Photo studio" />
+                  <img className="offer__image" src={item} alt="Photo studio" />
                 </div>
               ))}
             </div>
@@ -83,7 +83,7 @@ export default function OfferPage({offers, reviews}: OfferPageProps) {
                   <span style={{ width: `${Math.round(offer.rating) * 100 / 5}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value"> { offer.rating } </span>
+                <span className="offer__rating-value rating__value"> {offer.rating} </span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
@@ -97,25 +97,25 @@ export default function OfferPage({offers, reviews}: OfferPageProps) {
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;{ offer.price }</b>
+                <b className="offer__price-value">&euro;{offer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
                   {offer.goods.map((good) => (
-                    <li className="offer__inside-item" key={ good }>{ good }</li>
+                    <li className="offer__inside-item" key={good}>{good}</li>
                   ))}
                 </ul>
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className={`offer__avatar-wrapper offer__avatar-wrapper${ offer.host.isPro ? '--pro' : ''} user__avatar-wrapper`}>
-                    <img className="offer__avatar user__avatar" src={ offer.host.avatarUrl } width="74" height="74" alt="Host avatar" />
+                  <div className={`offer__avatar-wrapper offer__avatar-wrapper${offer.host.isPro ? '--pro' : ''} user__avatar-wrapper`}>
+                    <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="offer__user-name">
-                    { offer.host.name }
+                    {offer.host.name}
                   </span>
                   <span className="offer__user-status">
                     { offer.host.isPro ? 'Pro' : '' }
@@ -123,21 +123,21 @@ export default function OfferPage({offers, reviews}: OfferPageProps) {
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
-                    { offer.description }
+                    {offer.description}
                   </p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{ reviews.length }</span></h2>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ul className="reviews__list">
                   {reviews.map((review) => (
-                    <li className="reviews__item" key={ review.id }>
+                    <li className="reviews__item" key={review.id}>
                       <div className="reviews__user user">
                         <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                          <img className="reviews__avatar user__avatar" src={ review.user.avatarUrl } width="54" height="54" alt="Reviews avatar" />
+                          <img className="reviews__avatar user__avatar" src={review.user.avatarUrl} width="54" height="54" alt="Reviews avatar" />
                         </div>
                         <span className="reviews__user-name">
-                          { review.user.name }
+                          {review.user.name}
                         </span>
                       </div>
                       <div className="reviews__info">
@@ -148,9 +148,9 @@ export default function OfferPage({offers, reviews}: OfferPageProps) {
                           </div>
                         </div>
                         <p className="reviews__text">
-                          { review.comment }
+                          {review.comment}
                         </p>
-                        <time className="reviews__time" dateTime={ review.date }>{ review.date }</time>
+                        <time className="reviews__time" dateTime={review.date}>{review.date}</time>
                       </div>
                     </li>
                   ))}
@@ -269,5 +269,4 @@ export default function OfferPage({offers, reviews}: OfferPageProps) {
       </main>
     </div>
   );
-
 }

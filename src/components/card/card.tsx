@@ -18,7 +18,7 @@ export default function Card({offer}:CardProps) {
         <span>Premium</span>
       </div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={ `${AppRoute.Offer}/${id}` }>
+        <Link to={`${AppRoute.Offer}/${id}`}>
           <img className="place-card__image" src={previewImage} width={260} height={200} alt="Place image"/>
         </Link>
       </div>
@@ -42,7 +42,7 @@ export default function Card({offer}:CardProps) {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={ `${AppRoute.Offer}/${id}` }>{title}</Link>
+          <Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

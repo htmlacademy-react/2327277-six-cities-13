@@ -1,4 +1,3 @@
-// import Card from '../../components/card/card';
 import { OffersList } from '../../components/offers-list/offers-list';
 import { Helmet } from 'react-helmet-async';
 import { OfferPreview } from '../../types/offer-types';
@@ -36,7 +35,7 @@ export default function MainPage({offersCount, offersList}:MainPageProps) {
                   </a>
                 </li>
                 <li className="header__nav-item">
-                  <Link className="header__nav-link" to={ AppRoute.Login }>
+                  <Link className="header__nav-link" to={AppRoute.Login}>
                     <span className="header__signout">Sign out</span>
                   </Link>
                 </li>
