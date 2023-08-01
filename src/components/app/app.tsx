@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import OfferPage from '../../pages/offer-page/offer-page';
 import { HelmetProvider } from 'react-helmet-async';
 import PrivateRoute from '../private-route/private-route';
-import { Offer } from '../../types/offer-types';
+import { Offer, City } from '../../types/offer-types';
 import { Review } from '../../types/review-types';
 import { OfferPreview } from '../../types/offer-types';
 
@@ -16,9 +16,10 @@ import { OfferPreview } from '../../types/offer-types';
   offersList: OfferPreview[];
   offers: Offer[];
   reviews: Review[];
+  city: City;
  };
 
-export default function App({offersCount, offersList, offers, reviews}: AppProps): JSX.Element {
+export default function App({offersCount, offersList, offers, reviews, city}: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -28,6 +29,7 @@ export default function App({offersCount, offersList, offers, reviews}: AppProps
               <MainPage
                 offersCount = {offersCount}
                 offersList = {offersList}
+                city={city}
               />
             }
           />
