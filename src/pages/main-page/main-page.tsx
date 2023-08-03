@@ -1,16 +1,23 @@
 import { OffersList } from '../../components/offers-list/offers-list';
 import { Helmet } from 'react-helmet-async';
-import { OfferPreview } from '../../types/offer-types';
+import { OfferPreview, City } from '../../types/offer-types';
 import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
+import Map from '../../components/map/map';
+import { useState } from 'react';
 
 type MainPageProps = {
   offersCount: number;
   offersList: OfferPreview[];
-
+  city: City;
 };
 
-export default function MainPage({offersCount, offersList}:MainPageProps) {
+export default function MainPage({offersCount, offersList, city}:MainPageProps) {
+  const [selectedOffer, setSelectedOffer] = useState<OfferPreview | undefined>(undefined);
+  const handleListItemHover = (id: string) => {
+    const currentPoint = offersList.find((offer) => offer.id === id);
+    setSelectedOffer(currentPoint);
+  };
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -104,10 +111,17 @@ export default function MainPage({offersCount, offersList}:MainPageProps) {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offersList}/>
+              <OffersList
+                offers={offersList}
+                onCardHover = {handleListItemHover}
+              />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                offers={offersList}
+                city={city}
+                selectedOffer={selectedOffer}
+              />
             </div>
           </div>
         </div>

@@ -2,17 +2,29 @@ import { OfferPreview } from '../../types/offer-types';
 import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { MouseEvent } from 'react';
 
 
 type CardProps = {
   offer: OfferPreview;
+  onCardHover: (id: string) => void;
 }
 
-export default function Card({offer}:CardProps) {
+export default function Card({offer, onCardHover}:CardProps) {
   const {id, title, type, price, previewImage, isFavorite, isPremium, rating} = offer;
   const [, setOfferId] = useState('');
+  const handleCardHover = (event: MouseEvent<HTMLLIElement>) => {
+    event.preventDefault();
+    setOfferId(id);
+    onCardHover(id);
+  };
+  const handleCardOut = (event: MouseEvent<HTMLLIElement>) => {
+    event.preventDefault();
+    setOfferId('');
+    onCardHover('');
+  };
   return (
-    <article className="cities__card place-card" onMouseOver={() => setOfferId(id)} onMouseOut={() => setOfferId('')}>
+    <article className="cities__card place-card" onMouseOver={handleCardHover} onMouseOut={handleCardOut}>
       {isPremium &&
       <div className="place-card__mark">
         <span>Premium</span>
