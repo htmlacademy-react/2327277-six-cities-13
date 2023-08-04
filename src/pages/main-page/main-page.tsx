@@ -114,6 +114,7 @@ export default function MainPage({offersCount, offersList, city}:MainPageProps) 
               <OffersList
                 offers={offersList}
                 onCardHover = {handleListItemHover}
+                isNear={false}
               />
             </section>
             <div className="cities__right-section">

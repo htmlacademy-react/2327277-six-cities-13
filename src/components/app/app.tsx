@@ -48,7 +48,7 @@ export default function App({offersCount, offersList, offers, reviews, city}: Ap
             }
           />
           <Route path={`${AppRoute.Offer}/:id`}
-            element={<OfferPage offers = {offers} reviews = {reviews}/>}
+            element={<OfferPage offers = {offers} reviews = {reviews} offersList={offersList}/>}
           />
           <Route path="*"
             element={<NotFoundPage/>}

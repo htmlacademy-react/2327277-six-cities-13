@@ -3,14 +3,16 @@ import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { MouseEvent } from 'react';
+import classNames from 'classnames';
 
 
 type CardProps = {
   offer: OfferPreview;
   onCardHover: (id: string) => void;
+  isNear:boolean;
 }
 
-export default function Card({offer, onCardHover}:CardProps) {
+export default function Card({offer, onCardHover, isNear}:CardProps) {
   const {id, title, type, price, previewImage, isFavorite, isPremium, rating} = offer;
   const [, setOfferId] = useState('');
   const handleCardHover = (event: MouseEvent<HTMLLIElement>) => {
@@ -24,12 +26,25 @@ export default function Card({offer, onCardHover}:CardProps) {
     onCardHover('');
   };
   return (
-    <article className="cities__card place-card" onMouseOver={handleCardHover} onMouseOut={handleCardOut}>
+    <article
+      className={classNames(
+        {'near-places__card': isNear},
+        {'cities__card': !isNear},
+        'place-card'
+      )}
+      onMouseOver={handleCardHover} onMouseOut={handleCardOut}
+    >
       {isPremium &&
       <div className="place-card__mark">
         <span>Premium</span>
       </div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div
+        className={classNames(
+          {'near-places__image-wrapper': isNear},
+          {'cities__image-wrapper': !isNear},
+          'place-card__image-wrapper'
+        )}
+      >
         <Link to={`${AppRoute.Offer}/${id}`}>
           <img className="place-card__image" src={previewImage} width={260} height={200} alt="Place image"/>
         </Link>
