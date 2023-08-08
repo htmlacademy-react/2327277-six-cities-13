@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
 type FavoritesCardProps = {
-  offers: OfferPreview;
+  offer: OfferPreview;
 }
 
-export function FavoritesCard({offers}:FavoritesCardProps) {
-  const {id, isPremium, previewImage, price, rating, title, type} = offers;
+export function FavoritesCard({offer}:FavoritesCardProps) {
+  const {id, isPremium, previewImage, price, rating, title, type} = offer;
   return (
     <article className="favorites__card place-card">
       {isPremium ? (

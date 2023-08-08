@@ -11,24 +11,6 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export enum CityName {
-  Paris ='Paris',
-  Cologne ='Cologne',
-  Brusells = 'Brussels',
-  Amsterdam = 'Amsterdam',
-  Hamburg ='Hamburg',
-  Dusseldorf = 'Dusseldorf',
-}
-
-export enum NameSpace {
-Offers = 'OFFERS',
-Offer = 'OFFER',
-NearPlaces = 'NEAR_PLACES',
-Favorites = 'FAVORITES',
-Reviews = 'REVIEWS',
-User = 'USER'
-}
-
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 140;
 
@@ -38,7 +20,7 @@ export const URL_MARKER_DEFAULT =
 export const URL_MARKER_CURRENT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
 
-export const CityMap = [
+export const CITIES_LOCATIONS = [
   {
     name: 'Paris',
     location: {

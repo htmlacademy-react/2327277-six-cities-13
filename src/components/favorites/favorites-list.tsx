@@ -20,7 +20,7 @@ export function FavoritesList({offers, cities}:FavoritesListProps) {
           </div>
           <div className="favorites__places">
             {offers.filter((item) => item.city.name === city).map((item) => (
-              <FavoritesCard key={item.id} offers = {item}/>
+              <FavoritesCard key={item.id} offer = {item}/>
             ))}
           </div>
         </li>
