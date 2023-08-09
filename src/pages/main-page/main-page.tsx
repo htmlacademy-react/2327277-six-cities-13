@@ -1,18 +1,19 @@
 import { OffersList } from '../../components/offers-list/offers-list';
 import { Helmet } from 'react-helmet-async';
-import { OfferPreview, City } from '../../types/offer-types';
+import { OfferPreview } from '../../types/offer-types';
 import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
 import Map from '../../components/map/map';
 import { useState } from 'react';
+import { CitiesList } from '../../components/cities-list/cities-list';
+import { useAppSelector } from '../../hooks';
+import { getOffersByCity } from '../../utils';
 
-type MainPageProps = {
-  offersCount: number;
-  offersList: OfferPreview[];
-  city: City;
-};
+export default function MainPage() {
+  const selectedCity = useAppSelector((state) => state.city);
+  const offersList = useAppSelector((state) => state.offers);
+  const selectedCityOffers = getOffersByCity(selectedCity?.name, offersList);
 
-export default function MainPage({offersCount, offersList, city}:MainPageProps) {
   const [selectedOffer, setSelectedOffer] = useState<OfferPreview | undefined>(undefined);
   const handleListItemHover = (id: string) => {
     const currentPoint = offersList.find((offer) => offer.id === id);
@@ -56,46 +57,16 @@ export default function MainPage({offersCount, offersList, city}:MainPageProps) 
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Paris</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Cologne</span>
-                </Link>
-
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Brussels</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item tabs__item--active" to="#">
-                  <span>Amsterdam</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Hamburg</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Dusseldorf</span>
-                </Link>
-              </li>
-            </ul>
+            <CitiesList
+              selectedCity={selectedCity}
+            />
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersCount} places to stay in Amsterdam</b>
+              <b className="places__found"> {selectedCityOffers.length} places to stay in {selectedCity?.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -112,15 +83,15 @@ export default function MainPage({offersCount, offersList, city}:MainPageProps) 
                 </ul>
               </form>
               <OffersList
-                offers={offersList}
+                offers={selectedCityOffers}
                 onCardHover = {handleListItemHover}
                 isNear={false}
               />
             </section>
             <div className="cities__right-section">
               <Map
-                offers={offersList}
-                city={city}
+                offers={selectedCityOffers}
+                city={selectedCity}
                 selectedOffer={selectedOffer}
               />
             </div>

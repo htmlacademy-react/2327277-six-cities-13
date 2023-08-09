@@ -10,7 +10,8 @@ type FavoritesPageProps = {
 
 export default function FavoritesPage({offersList}:FavoritesPageProps) {
   const favoriteOffers = offersList.filter((offer) => offer.isFavorite);
-  const favoriteCities = favoriteOffers.reduce<string[]>((acc, item) => acc.includes(item.city.name) ? [...acc, item.city.name] : acc, []);
+  // const favoriteCities = favoriteOffers.reduce<string[]>((acc, item) => acc.includes(item.city.name) ? [...acc, item.city.name] : acc, []);
+  const favoriteCities = Array.from(new Set(favoriteOffers.map((offer) => offer.city.name)));
   return (
     <div className="page">
       <Helmet>
