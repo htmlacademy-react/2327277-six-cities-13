@@ -2,7 +2,6 @@ import {useRef, useEffect} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import useMap from '../../hooks/use-map';
 import { OfferPreview, City } from '../../types/offer-types';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
@@ -12,21 +11,28 @@ type MapProps = {
 };
 
 const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconUrl: 'img/pin.svg',
+  iconSize: [28, 40],
+  iconAnchor: [14, 40]
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconUrl: 'img/pin-active.svg',
+  iconSize: [28, 40],
+  iconAnchor: [14, 40]
 });
 
 export default function Map({ city, offers, selectedOffer }: MapProps) {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+
+  useEffect(() => {
+    if(map && city) {
+      map.setView([city.location.latitude, city.location.longitude],city.location.zoom);
+    }
+  }, [map,city]);
+
 
   useEffect(() => {
     if (map) {
