@@ -3,6 +3,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
+  NotFound = '/404',
   }
 
 export enum AuthorizationStatus {
@@ -71,3 +72,12 @@ export const SortingMap = {
   PriceToLow : 'Price: high to low',
   TopRated : 'Top rated first',
 };
+
+export enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+  Favorites = '/favorite',
+  NotFound = '/404',
+  Reviews = '/comments'
+}

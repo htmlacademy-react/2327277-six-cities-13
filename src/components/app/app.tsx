@@ -9,15 +9,17 @@ import { HelmetProvider } from 'react-helmet-async';
 import PrivateRoute from '../private-route/private-route';
 import { Offer } from '../../types/offer-types';
 import { Review } from '../../types/review-types';
-import { OfferPreview } from '../../types/offer-types';
+// import { OfferPreview } from '../../types/offer-types';
+import { useAppSelector } from '../../hooks';
 
  type AppProps = {
-  offersList: OfferPreview[];
+  // offersList: OfferPreview[];
   offers: Offer[];
   reviews: Review[];
  };
 
-export default function App({offersList, offers, reviews}: AppProps): JSX.Element {
+export default function App({ offers, reviews}: AppProps): JSX.Element {
+  const offersList = useAppSelector((state) => state.offers);
   return (
     <HelmetProvider>
       <BrowserRouter>
