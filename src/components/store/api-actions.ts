@@ -1,9 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../../types/state';
 import { AxiosInstance } from 'axios';
-import { Offer, OfferPreview } from '../../types/offer-types';
+import { OfferPreview } from '../../types/offer-types';
+import { APIRoute } from '../../const';
+// import { Offer, OfferPreview } from '../../types/offer-types';
 // import { Review, UserData } from '../../types/review-types';
-import { AppRoute, APIRoute, AuthorizationStatus } from '../../const';
+// import { AppRoute, APIRoute, AuthorizationStatus } from '../../const';
 // import { dropToken, saveToken } from '../services/token';
 import {fetchOffers, setError, setOffersDataLoadingStatus} from './action';
 // import { AuthData } from '../../types/auth-data';
