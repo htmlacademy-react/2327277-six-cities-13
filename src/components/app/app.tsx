@@ -3,26 +3,35 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import LoadingPage from '../../pages/loading-page/loading-page';
+import { Route, Routes } from 'react-router-dom';
 import OfferPage from '../../pages/offer-page/offer-page';
 import { HelmetProvider } from 'react-helmet-async';
 import PrivateRoute from '../private-route/private-route';
 import { Offer } from '../../types/offer-types';
 import { Review } from '../../types/review-types';
-// import { OfferPreview } from '../../types/offer-types';
 import { useAppSelector } from '../../hooks';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
  type AppProps = {
-  // offersList: OfferPreview[];
   offers: Offer[];
   reviews: Review[];
  };
 
 export default function App({ offers, reviews}: AppProps): JSX.Element {
   const offersList = useAppSelector((state) => state.offers);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+    return (
+      <LoadingPage />
+    );
+  }
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route path={AppRoute.Root}
             element={
@@ -31,16 +40,14 @@ export default function App({ offers, reviews}: AppProps): JSX.Element {
           />
           <Route path={AppRoute.Favorites}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <PrivateRoute authorizationStatus={authorizationStatus}>
                 <FavoritesPage offersList = {offersList}/>
               </PrivateRoute>
             }
           />
           <Route path={AppRoute.Login}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <LoginPage/>
-              </PrivateRoute>
+              <LoginPage/>
             }
           />
           <Route path={`${AppRoute.Offer}/:id`}
@@ -50,7 +57,7 @@ export default function App({ offers, reviews}: AppProps): JSX.Element {
             element={<NotFoundPage/>}
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }
