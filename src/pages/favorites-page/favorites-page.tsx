@@ -1,16 +1,13 @@
 import { Helmet } from 'react-helmet-async';
-import { OfferPreview } from '../../types/offer-types';
 import { FavoritesList } from '../../components/favorites/favorites-list';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import Header from '../../components/header/header';
+import HeaderLogo from '../../components/header/header-logo';
+import { useAppSelector } from '../../hooks';
 
-type FavoritesPageProps = {
-  offersList: OfferPreview[];
-}
-
-export default function FavoritesPage({offersList}:FavoritesPageProps) {
-  const favoriteOffers = offersList.filter((offer) => offer.isFavorite);
-  // const favoriteCities = favoriteOffers.reduce<string[]>((acc, item) => acc.includes(item.city.name) ? [...acc, item.city.name] : acc, []);
+export default function FavoritesPage() {
+  const favoriteOffers = useAppSelector((state) => state.favorites);
   const favoriteCities = Array.from(new Set(favoriteOffers.map((offer) => offer.city.name)));
   return (
     <div className="page">
@@ -21,27 +18,9 @@ export default function FavoritesPage({offersList}:FavoritesPageProps) {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width={81} height={41}/>
-              </a>
+              <HeaderLogo />
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to={AppRoute.Login}>
-                    <span className="header__signout">Sign out</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
+            <Header/>
           </div>
         </div>
       </header>
@@ -51,7 +30,7 @@ export default function FavoritesPage({offersList}:FavoritesPageProps) {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <FavoritesList offers = {favoriteOffers} cities = {favoriteCities}/>
+              {favoriteCities.map((city) => <FavoritesList key={city} city={city} favoriteOffers={favoriteOffers} />)}
             </ul>
           </section>
         </div>
@@ -64,3 +43,4 @@ export default function FavoritesPage({offersList}:FavoritesPageProps) {
     </div>
   );
 }
+
