@@ -1,6 +1,9 @@
 import { OfferPreview } from './types/offer-types';
+import { Review } from './types/review-types';
 import { Sorting } from './types/sorting-types';
 import { SortingMap } from './const';
+
+const MAX_REVIEWS_AMOUNT = 20;
 
 export function getOffersByCity (city: string | undefined, offers: OfferPreview[]): OfferPreview[]{
   return offers.filter((offer) => offer.city.name === city);
@@ -17,4 +20,14 @@ export function sortOffersByType (offers: OfferPreview[], type: Sorting): OfferP
     default:
       return offers;
   }
+}
+
+function compare(a: Review, b: Review) {
+  const dateA = new Date(a.date);
+  const dateB = new Date(b.date);
+  return Number(dateB) - Number(dateA);
+}
+
+export function sortReviewByDate(reviews: Review[]): Review[] {
+  return reviews.slice().sort(compare).slice(0, MAX_REVIEWS_AMOUNT);
 }

@@ -1,20 +1,24 @@
-import { Review } from '../../types/review-types';
+import { useAppSelector } from '../../hooks';
+import { sortReviewByDate } from '../../utils';
 import { ReviewItem } from '../review-card/review-item';
 
-type ReviewsListProps = {
-  reviews: Review[];
-}
+export function ReviewsList() {
 
-export function ReviewsList ({reviews}:ReviewsListProps) {
+  const reviews = useAppSelector((store) => store.reviews);
+
   return (
     <>
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
+      <h2 className="reviews__title">
+        Reviews {' '}
+        <span className="reviews__amount">{reviews.length}</span>
+      </h2>
       <ul className="reviews__list">
-        {reviews.map((review) => (
-          <ReviewItem key={review.id} review={review} />
+        {sortReviewByDate(reviews).map((item) => (
+          <li className="reviews__item" key={item.id}>
+            <ReviewItem review={item} />
+          </li>
         ))}
       </ul>
     </>
   );
 }
-

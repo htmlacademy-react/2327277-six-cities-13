@@ -12,9 +12,6 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const MIN_COMMENT_LENGTH = 50;
-export const MAX_COMMENT_LENGTH = 140;
-
 export const CITIES_LOCATIONS = [
   {
     name: 'Paris',
@@ -79,5 +76,6 @@ export enum APIRoute {
   Logout = '/logout',
   Favorites = '/favorite',
   NotFound = '/404',
-  Reviews = '/comments'
+  Reviews = '/comments',
+  NearbyOffers = '/nearby',
 }

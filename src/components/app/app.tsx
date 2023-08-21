@@ -8,19 +8,12 @@ import { Route, Routes } from 'react-router-dom';
 import OfferPage from '../../pages/offer-page/offer-page';
 import { HelmetProvider } from 'react-helmet-async';
 import PrivateRoute from '../private-route/private-route';
-import { Offer } from '../../types/offer-types';
-import { Review } from '../../types/review-types';
 import { useAppSelector } from '../../hooks';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
- type AppProps = {
-  offers: Offer[];
-  reviews: Review[];
- };
 
-export default function App({ offers, reviews}: AppProps): JSX.Element {
-  const offersList = useAppSelector((state) => state.offers);
+export default function App(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
@@ -41,7 +34,7 @@ export default function App({ offers, reviews}: AppProps): JSX.Element {
           <Route path={AppRoute.Favorites}
             element={
               <PrivateRoute authorizationStatus={authorizationStatus}>
-                <FavoritesPage offersList = {offersList}/>
+                <FavoritesPage/>
               </PrivateRoute>
             }
           />
@@ -51,7 +44,7 @@ export default function App({ offers, reviews}: AppProps): JSX.Element {
             }
           />
           <Route path={`${AppRoute.Offer}/:id`}
-            element={<OfferPage offers = {offers} reviews = {reviews} offersList={offersList}/>}
+            element={<OfferPage/>}
           />
           <Route path="*"
             element={<NotFoundPage/>}

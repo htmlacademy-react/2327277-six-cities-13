@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 type CardProps = {
   offer: OfferPreview;
-  onCardHover: (id: string) => void;
+  onCardHover?: (id: string) => void;
   isNear:boolean;
 }
 
@@ -16,11 +16,17 @@ export default function Card({offer, onCardHover, isNear}:CardProps) {
   const {id, title, type, price, previewImage, isFavorite, isPremium, rating} = offer;
   const [, setOfferId] = useState('');
   const handleCardHover = (event: MouseEvent<HTMLLIElement>) => {
+    if (onCardHover === undefined) {
+      return;
+    }
     event.preventDefault();
     setOfferId(id);
     onCardHover(id);
   };
   const handleCardOut = (event: MouseEvent<HTMLLIElement>) => {
+    if (onCardHover === undefined) {
+      return;
+    }
     event.preventDefault();
     setOfferId('');
     onCardHover('');

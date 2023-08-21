@@ -1,5 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { fetchOffers, setActiveCity, fetchOffer, fetchReview, setOffersDataLoadingStatus, requireAuthorization, setUserInfo } from '../action';
+import { fetchOffers, setActiveCity, fetchOffer, fetchReviews,
+  setOffersDataLoadingStatus, requireAuthorization, setUserInfo, fetchNearestOffers,
+  setNearestOffersLoadingStatus, setOfferLoadingStatus, setReviewsDataLoadingStatus, sendCommentStatus, fetchFavorites } from '../action';
 import { CITIES_LOCATIONS, AuthorizationStatus } from '../../../const';
 import { Offer, OfferPreview, City } from '../../../types/offer-types';
 import { Review} from '../../../types/review-types';
@@ -10,23 +12,35 @@ const defaultCity = CITIES_LOCATIONS[0];
 export type InitialState = {
   city: City | undefined;
   offers: OfferPreview[];
-  fullOffers: Offer[];
+  fullOffer: Offer | null;
+  nearestOffers: OfferPreview[];
   reviews: Review[];
+  favorites: OfferPreview[];
   error: string | null;
   isOffersDataLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   userInfo: UserData | null;
+  isFullOfferDataLoading: boolean;
+  isReviewsDataLoading: boolean;
+  isNearestOffersDataLoading: boolean;
+  isCommentSend: boolean;
 }
 
 const initialState : InitialState = {
   city: defaultCity,
   offers: [],
-  fullOffers: [],
+  fullOffer: null,
+  nearestOffers: [],
   reviews: [],
+  favorites: [],
   error: null,
   isOffersDataLoading: false,
   authorizationStatus:AuthorizationStatus.Unknown,
   userInfo: null,
+  isFullOfferDataLoading: false,
+  isReviewsDataLoading: false,
+  isNearestOffersDataLoading: false,
+  isCommentSend: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -38,9 +52,9 @@ export const reducer = createReducer(initialState, (builder) => {
       state.offers = action.payload;
     })
     .addCase(fetchOffer, (state, action) => {
-      state.fullOffers = action.payload;
+      state.fullOffer = action.payload;
     })
-    .addCase(fetchReview, (state, action) => {
+    .addCase(fetchReviews, (state, action) => {
       state.reviews = action.payload;
     })
     .addCase(setOffersDataLoadingStatus, (state, action) => {
@@ -51,6 +65,24 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserInfo, (state, action) => {
       state.userInfo = action.payload;
+    })
+    .addCase(fetchNearestOffers, (state, action) => {
+      state.nearestOffers = action.payload;
+    })
+    .addCase(setNearestOffersLoadingStatus, (state, action) => {
+      state.isNearestOffersDataLoading = action.payload;
+    })
+    .addCase(setOfferLoadingStatus, (state, action) => {
+      state.isFullOfferDataLoading = action.payload;
+    })
+    .addCase(setReviewsDataLoadingStatus, (state, action) => {
+      state.isReviewsDataLoading = action.payload;
+    })
+    .addCase(sendCommentStatus, (state, action) => {
+      state.isCommentSend = action.payload;
+    })
+    .addCase(fetchFavorites, (state, action) => {
+      state.favorites = action.payload;
     });
 });
 

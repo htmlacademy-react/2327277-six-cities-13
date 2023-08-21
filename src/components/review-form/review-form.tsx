@@ -1,11 +1,15 @@
-import { useState, Fragment } from 'react';
-import { ChangeEvent } from 'react';
-import { MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH } from '../../const';
+import { FormEvent, ChangeEventHandler, useState , Fragment} from 'react';
+import { postCommentAction } from '../store/api-actions';
+import { useAppDispatch } from '../../hooks';
 
+const MIN_COMMENT_LENGTH = 50;
+const MAX_COMMENT_LENGTH = 140;
 
-export function ReviewForm() {
-  const [comment, setComment] = useState('');
-  const [rating, setRating] = useState('');
+type ReviewFormProps = {
+  offerId: string;
+}
+
+export function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
 
   const ratingMap = {
     '5': 'perfect',
@@ -15,21 +19,40 @@ export function ReviewForm() {
     '1': 'terribly',
   };
 
-  const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(evt.target.value);
+  const dispatch = useAppDispatch();
+  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState(0);
+
+  const isValid = rating !== 0
+    && comment.length >= MIN_COMMENT_LENGTH
+    && comment.length <= MAX_COMMENT_LENGTH;
+
+  const handleInputChange: ChangeEventHandler<HTMLInputElement> = ({
+    target,
+  }): void => {
+    setRating(Number(target.value));
   };
 
-  const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setRating(evt.target.value);
+  const handleTexAreaChange: ChangeEventHandler<HTMLTextAreaElement> = ({
+    target,
+  }): void => {
+    setComment(target.value);
   };
 
-  const isValid =
-    comment.length >= MIN_COMMENT_LENGTH &&
-    comment.length <= MAX_COMMENT_LENGTH &&
-    rating !== '';
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(postCommentAction({
+      id: offerId,
+      comment: comment,
+      rating: rating,
+    }));
+
+    setRating(0);
+    setComment('');
+  };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -44,7 +67,7 @@ export function ReviewForm() {
                 value={score}
                 id={`${score}-stars`}
                 type="radio"
-                checked={rating === score}
+                checked={Number(rating) === Number(score)}
                 onChange={handleInputChange}
               />
               <label
@@ -65,7 +88,7 @@ export function ReviewForm() {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
-        onChange={handleTextareaChange}
+        onChange={handleTexAreaChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
