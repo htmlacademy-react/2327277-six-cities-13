@@ -79,3 +79,13 @@ export enum APIRoute {
   Reviews = '/comments',
   NearbyOffers = '/nearby',
 }
+
+export enum NameSpace {
+  User = 'USER',
+  Offers = 'OFFERS',
+  Favorites = 'FAVORITES',
+  Offer = 'OFFER',
+  Reviews = 'REVIEWS',
+  NearPlaces = 'NEAR_PLACES',
+}
+

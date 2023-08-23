@@ -12,26 +12,29 @@ import NotFoundPage from '../not-found-page/not-found-page';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
-import { fetchOfferAction, fetchReviewsAction, fetchNearestOffersAction} from '../../components/store/api-actions';
+import { fetchFullOfferAction, fetchReviewsAction, fetchNearbyOffersAction } from '../../components/store/api-actions';
 import { AuthorizationStatus } from '../../const';
+import { getFullOffer, getNearbyOffers, isFullOfferDataLoading, isNearbyOffersLoading } from '../../components/store/offers/offers-selectors';
+import { isReviewsDataLoading } from '../../components/store/reviews/reviews-selectors';
+import { getAuthorizationStatus } from '../../components/store/user-process/user-process-selectors';
 
 export default function OfferPage() {
 
   const [selectedOffer, setSelectedOffer] = useState<OfferPreview | undefined> (undefined);
   const dispatch = useAppDispatch();
   const currentId = String(useParams().id);
-  const currentOffer = useAppSelector((state) => state.fullOffer);
-  const isFullOfferLoaded = useAppSelector((state) => state.isFullOfferDataLoading);
-  const isReviewsLoaded = useAppSelector((state) => state.isReviewsDataLoading);
-  const nearbyOffersList = useAppSelector((state) => state.nearestOffers.slice(0, 3));
-  const isNearbyOffersLoaded = useAppSelector((state) => state.isNearestOffersDataLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const currentOffer = useAppSelector(getFullOffer);
+  const isFullOfferLoaded = useAppSelector(isFullOfferDataLoading);
+  const isReviewsLoaded = useAppSelector(isReviewsDataLoading);
+  const nearbyOffersList = useAppSelector(getNearbyOffers).slice(0, 3);
+  const isNearbyOffersLoaded = useAppSelector(isNearbyOffersLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     if (currentId) {
-      dispatch(fetchOfferAction(currentId));
+      dispatch(fetchFullOfferAction(currentId));
       dispatch(fetchReviewsAction(currentId));
-      dispatch(fetchNearestOffersAction(currentId));
+      dispatch(fetchNearbyOffersAction(currentId));
     }
   }, [dispatch, currentId]);
   if (isFullOfferLoaded || isReviewsLoaded || isNearbyOffersLoaded) {
@@ -149,6 +152,7 @@ export default function OfferPage() {
           </div>
           <section className="offer__map map">
             <Map
+              className='offer'
               offers={nearbyOffersList}
               city={currentOffer.city}
               selectedOffer={selectedOffer}
