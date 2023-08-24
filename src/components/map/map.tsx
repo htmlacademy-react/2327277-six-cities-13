@@ -5,6 +5,7 @@ import { OfferPreview, City } from '../../types/offer-types';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
+  className: string;
   city: City|undefined;
   offers: OfferPreview[];
   selectedOffer: OfferPreview | undefined;
@@ -22,33 +23,31 @@ const currentCustomIcon = new Icon({
   iconAnchor: [14, 40]
 });
 
-export default function Map({ city, offers, selectedOffer }: MapProps) {
+export default function Map({ className, city, offers, selectedOffer }: MapProps) {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
   useEffect(() => {
-    if(map && city) {
-      map.setView([city.location.latitude, city.location.longitude],city.location.zoom);
-    }
-  }, [map,city]);
-
-
-  useEffect(() => {
-    if (map) {
+    if (map && city) {
       const markerLayer = layerGroup().addTo(map);
+      map.setView(
+        {
+          lat: city.location.latitude,
+          lng: city.location.longitude,
+        },
+        city.location.zoom,
+      );
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude
         });
-
-        marker
-          .setIcon(
-            selectedOffer !== undefined && offer.id === selectedOffer.id
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
+        marker.setIcon(
+          selectedOffer !== undefined && offer.id === selectedOffer.id
+            ? currentCustomIcon
+            : defaultCustomIcon
+        )
           .addTo(markerLayer);
       });
 
@@ -56,20 +55,32 @@ export default function Map({ city, offers, selectedOffer }: MapProps) {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, selectedOffer]);
+  }, [map, offers, city, selectedOffer]);
+
+  const style = className === 'cities' ? '100%' : '579px';
 
   return (
-    <section className="cities__map map"
+    <section
+      style={{height: style}}
+      className={`${className}__map map`}
       ref={mapRef}
-      style={{
-        height:'100%',
-        minHeight:'500px',
-        width:'100%',
-        maxWidth:'1144px',
-        margin:'0 auto',
-      }}
     >
-    </section>
-  );
+    </section>);
 }
+
+
+//   return (
+//     <section className="cities__map map"
+//       ref={mapRef}
+//       style={{
+//         height:'100%',
+//         minHeight:'500px',
+//         width:'100%',
+//         maxWidth:'1144px',
+//         margin:'0 auto',
+//       }}
+//     >
+//     </section>
+//   );
+// }
 

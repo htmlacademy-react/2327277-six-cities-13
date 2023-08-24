@@ -2,7 +2,7 @@ import { OffersList } from '../../components/offers-list/offers-list';
 import { Helmet } from 'react-helmet-async';
 import { OfferPreview } from '../../types/offer-types';
 import Map from '../../components/map/map';
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { CitiesList } from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../hooks';
 import { getOffersByCity, sortOffersByType } from '../../utils';
@@ -10,18 +10,18 @@ import { SortOffers } from '../../components/sorting/sorting';
 import { Sorting } from '../../types/sorting-types';
 import Header from '../../components/header/header';
 import HeaderLogo from '../../components/header/header-logo';
+import { getActiveCity, getOffers } from '../../components/store/offers/offers-selectors';
 
 export default function MainPage() {
-  const selectedCity = useAppSelector((state) => state.city);
-  const offersList = useAppSelector((state) => state.offers);
-  const selectedCityOffers = getOffersByCity(selectedCity?.name, offersList);
-
+  const selectedCity = useAppSelector(getActiveCity);
+  const offersList = useAppSelector(getOffers);
+  const selectedCityOffers = useMemo(() => getOffersByCity(selectedCity?.name, offersList), [selectedCity, offersList]);
   const [selectedOffer, setSelectedOffer] = useState<OfferPreview | undefined>(undefined);
   const [activeSort, setActiveSort] = useState<Sorting>('Popular');
-  const handleListItemHover = (id: string) => {
+  const handleListItemHover = useCallback((id: string) => {
     const currentPoint = offersList.find((offer) => offer.id === id);
     setSelectedOffer(currentPoint);
-  };
+  },[offersList]);
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -42,9 +42,7 @@ export default function MainPage() {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList
-              selectedCity={selectedCity}
-            />
+            <CitiesList/>
           </section>
         </div>
         <div className="cities">
@@ -64,6 +62,7 @@ export default function MainPage() {
             </section>
             <div className="cities__right-section">
               <Map
+                className='cities'
                 offers={selectedCityOffers}
                 city={selectedCity}
                 selectedOffer={selectedOffer}

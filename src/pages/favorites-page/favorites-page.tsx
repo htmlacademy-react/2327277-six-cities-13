@@ -5,9 +5,10 @@ import { AppRoute } from '../../const';
 import Header from '../../components/header/header';
 import HeaderLogo from '../../components/header/header-logo';
 import { useAppSelector } from '../../hooks';
+import { getFavoriteOffers } from '../../components/store/offers/offers-selectors';
 
 export default function FavoritesPage() {
-  const favoriteOffers = useAppSelector((state) => state.favorites);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
   const favoriteCities = Array.from(new Set(favoriteOffers.map((offer) => offer.city.name)));
   return (
     <div className="page">

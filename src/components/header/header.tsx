@@ -2,14 +2,22 @@ import { Link } from 'react-router-dom';
 import { logoutAction } from '../store/api-actions';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { MouseEvent, useMemo } from 'react';
+import { getAuthorizationStatus, getUserInfo } from '../store/user-process/user-process-selectors';
+import { getFavoriteOffers } from '../store/offers/offers-selectors';
 
 export default function Header() {
   const dispatch = useAppDispatch();
-  const userStatus = useAppSelector((state) => state.authorizationStatus);
-  const isLoggedIn = userStatus === AuthorizationStatus.Auth;
+  const userStatus = useAppSelector(getAuthorizationStatus);
+  const isLoggedIn = useMemo(() => userStatus === AuthorizationStatus.Auth, [userStatus]);
 
-  const userInfo = useAppSelector((state) => state.userInfo);
-  const favorites = useAppSelector((state) => state.favorites);
+  const userInfo = useAppSelector(getUserInfo);
+  const favorites = useAppSelector(getFavoriteOffers);
+
+  const handleLogout = (evt: MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    dispatch(logoutAction());
+  };
 
   return (
     <nav className="header__nav">
@@ -33,10 +41,7 @@ export default function Header() {
           <li className="header__nav-item">
             <Link
               className="header__nav-link"
-              onClick={(evt) => {
-                evt.preventDefault();
-                dispatch(logoutAction());
-              }}
+              onClick={handleLogout}
               to={AppRoute.Root}
             >
               <span className="header__signout">Sign out</span>

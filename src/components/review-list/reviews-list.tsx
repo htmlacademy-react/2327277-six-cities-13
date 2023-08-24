@@ -1,10 +1,11 @@
 import { useAppSelector } from '../../hooks';
 import { sortReviewByDate } from '../../utils';
 import { ReviewItem } from '../review-card/review-item';
+import { getReviews } from '../store/reviews/reviews-selectors';
 
 export function ReviewsList() {
 
-  const reviews = useAppSelector((store) => store.reviews);
+  const reviews = useAppSelector(getReviews);
 
   return (
     <>
