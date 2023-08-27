@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { MouseEvent } from 'react';
 import classNames from 'classnames';
-
+import { BookmarkButton } from '../bookmark-button/bookmark-button';
 
 type CardProps = {
   offer: OfferPreview;
@@ -13,8 +13,9 @@ type CardProps = {
 }
 
 export default function Card({offer, onCardHover, isNear}:CardProps) {
-  const {id, title, type, price, previewImage, isFavorite, isPremium, rating} = offer;
+  const {id, title, type, price, previewImage, isPremium, rating} = offer;
   const [, setOfferId] = useState('');
+  const [activeFavorite, setActiveFavorite] = useState(offer.isFavorite);
   const handleCardHover = (event: MouseEvent<HTMLLIElement>) => {
     if (onCardHover === undefined) {
       return;
@@ -61,12 +62,7 @@ export default function Card({offer, onCardHover, isNear}:CardProps) {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button${isFavorite ? '--active' : ''} button`} type="button">
-            <svg className="place-card__bookmark-icon" width={18} height={19}>
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <BookmarkButton id={id} isFavorite={activeFavorite} isDetailed = {false} onClick={() => setActiveFavorite((prev) => !prev)}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

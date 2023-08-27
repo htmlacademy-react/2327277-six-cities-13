@@ -46,3 +46,7 @@ export type Offer = {
   maxAdults: number;
 }
 
+export type FavoritesStatusData = {
+  id: string;
+  isFavorite: boolean;
+};

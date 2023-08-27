@@ -4,7 +4,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { MouseEvent, useMemo } from 'react';
 import { getAuthorizationStatus, getUserInfo } from '../store/user-process/user-process-selectors';
-import { getFavoriteOffers } from '../store/offers/offers-selectors';
+import { getFavorites } from '../store/favorites/favorites-selectors';
 
 export default function Header() {
   const dispatch = useAppDispatch();
@@ -12,7 +12,7 @@ export default function Header() {
   const isLoggedIn = useMemo(() => userStatus === AuthorizationStatus.Auth, [userStatus]);
 
   const userInfo = useAppSelector(getUserInfo);
-  const favorites = useAppSelector(getFavoriteOffers);
+  const favorites = useAppSelector(getFavorites);
 
   const handleLogout = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();

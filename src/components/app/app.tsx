@@ -14,7 +14,7 @@ import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import { useEffect } from 'react';
 import { fetchOffersAction, checkAuthAction, fetchFavoritesAction } from '../store/api-actions';
-import { isOffersDataLoading, getErrorStatus } from '../store/offers/offers-selectors';
+import { getIsOffersDataLoading, getErrorStatus } from '../store/offers/offers-selectors';
 import { getAuthCheckedStatus, getAuthorizationStatus } from '../store/user-process/user-process-selectors';
 
 
@@ -27,7 +27,7 @@ export default function App(): JSX.Element {
   }, [dispatch]);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const isOffersStatusLoading = useAppSelector(isOffersDataLoading);
+  const isOffersStatusLoading = useAppSelector(getIsOffersDataLoading);
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const hasError = useAppSelector(getErrorStatus);
 

@@ -5,8 +5,10 @@ import { Offer, OfferPreview } from '../../types/offer-types';
 import { saveToken, dropToken } from '../services/token';
 import { Review, Comment } from '../../types/review-types';
 import { UserData } from '../../types/user-data';
-import { APIRoute } from '../../const';
+import { APIRoute, FavoriteStatus } from '../../const';
 import { AuthData } from '../../types/auth-data';
+import { NameSpace } from '../../const';
+
 
 export const fetchOffersAction = createAsyncThunk<OfferPreview[], undefined, {
   dispatch: AppDispatch;
@@ -105,14 +107,65 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   },
 );
 
+// export const fetchFavoriteOffersAction = createAsyncThunk<OfferPreview[], undefined, {
+//   dispatch: AppDispatch;
+//   state: State;
+//   extra: AxiosInstance;
+// }>(
+//   'data/favoriteOffersList',
+//   async (_arg, {extra: api}) => {
+//     const { data } = await api.get<OfferPreview[]>(`${APIRoute.Favorites}`);
+//     return data;
+//   },
+// );
+
+// export const changeFavoritesStatusAction = createAsyncThunk<OfferPreview, FavoritesStatusData, {
+//   dispatch: AppDispatch;
+//   state: State;
+//   extra: AxiosInstance;
+// }>(
+//   'data/changeFavoritesStatus',
+//   async ({id, isFavorite}, {extra: api}) => {
+//     const { data } = await api.post<OfferPreview>(`${APIRoute.Favorites}/${id}/${+isFavorite}`);
+//     return data;
+//   }
+// );
+
 export const fetchFavoritesAction = createAsyncThunk<OfferPreview[], undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'offers/favorites',
-  async (_arg, { extra: api }) => {
-    const { data } = await api.get<OfferPreview[]>(APIRoute.Favorites);
+  `${NameSpace.Favorites}/fetchFavorites`,
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<OfferPreview[]>(APIRoute.Favorites);
+
     return data;
-  },
+  }
+);
+
+export const addFavorite = createAsyncThunk<OfferPreview, OfferPreview['id'], {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  `${NameSpace.Favorites}/addFavorite`,
+  async (id, {extra: api}) => {
+    const {data} = await api.post<OfferPreview>(`${APIRoute.Favorites}/${id}/${FavoriteStatus.Add}`);
+
+    return data;
+  }
+);
+
+export const deleteFavorite = createAsyncThunk<OfferPreview, OfferPreview['id'], {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  `${NameSpace.Favorites}/deleteFavorite`,
+  async (id, {extra: api}) => {
+    const {data} = await api.post<OfferPreview>(`${APIRoute.Favorites}/${id}/${FavoriteStatus.Delete}`);
+
+    return data;
+  }
 );
