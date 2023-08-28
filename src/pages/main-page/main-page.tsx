@@ -11,6 +11,7 @@ import { Sorting } from '../../types/sorting-types';
 import Header from '../../components/header/header';
 import HeaderLogo from '../../components/header/header-logo';
 import { getActiveCity, getOffers } from '../../components/store/offers/offers-selectors';
+import { MainPageEmpty } from './main-page-empty';
 
 export default function MainPage() {
   const selectedCity = useAppSelector(getActiveCity);
@@ -18,6 +19,8 @@ export default function MainPage() {
   const selectedCityOffers = useMemo(() => getOffersByCity(selectedCity?.name, offersList), [selectedCity, offersList]);
   const [selectedOffer, setSelectedOffer] = useState<OfferPreview | undefined>(undefined);
   const [activeSort, setActiveSort] = useState<Sorting>('Popular');
+  const isEmpty = offersList.length === 0;
+
   const handleListItemHover = useCallback((id: string) => {
     const currentPoint = offersList.find((offer) => offer.id === id);
     setSelectedOffer(currentPoint);
@@ -46,29 +49,30 @@ export default function MainPage() {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found"> {selectedCityOffers.length} places to stay in {selectedCity?.name}</b>
-              <SortOffers
-                activeSorting={activeSort}
-                onChange={(newSorting) => setActiveSort(newSorting)}
-              />
-              <OffersList
-                offers={sortOffersByType(selectedCityOffers, activeSort)}
-                onCardHover = {handleListItemHover}
-                isNear={false}
-              />
-            </section>
-            <div className="cities__right-section">
-              <Map
-                className='cities'
-                offers={selectedCityOffers}
-                city={selectedCity}
-                selectedOffer={selectedOffer}
-              />
-            </div>
-          </div>
+          {isEmpty ? <MainPageEmpty/> :
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found"> {selectedCityOffers.length} places to stay in {selectedCity?.name}</b>
+                <SortOffers
+                  activeSorting={activeSort}
+                  onChange={(newSorting) => setActiveSort(newSorting)}
+                />
+                <OffersList
+                  offers={sortOffersByType(selectedCityOffers, activeSort)}
+                  onCardHover = {handleListItemHover}
+                  isNear={false}
+                />
+              </section>
+              <div className="cities__right-section">
+                <Map
+                  className='cities'
+                  offers={selectedCityOffers}
+                  city={selectedCity}
+                  selectedOffer={selectedOffer}
+                />
+              </div>
+            </div>}
         </div>
       </main>
     </div>

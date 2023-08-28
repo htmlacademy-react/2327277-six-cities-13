@@ -1,15 +1,23 @@
 import { Helmet } from 'react-helmet-async';
 import { FavoritesList } from '../../components/favorites/favorites-list';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, RequestStatus } from '../../const';
 import Header from '../../components/header/header';
 import HeaderLogo from '../../components/header/header-logo';
 import { useAppSelector } from '../../hooks';
-import { getFavoriteOffers } from '../../components/store/offers/offers-selectors';
+import { getFavorites, getFavoritesFetchingStatus } from '../../components/store/favorites/favorites-selectors';
+import LoadingPage from '../loading-page/loading-page';
+import { FavoritesEmpty } from './favorites-empty';
 
 export default function FavoritesPage() {
-  const favoriteOffers = useAppSelector(getFavoriteOffers);
-  const favoriteCities = Array.from(new Set(favoriteOffers.map((offer) => offer.city.name)));
+  const favoriteOffers = useAppSelector(getFavorites);
+  const fetchingStatus = useAppSelector(getFavoritesFetchingStatus);
+  const isEmpty = favoriteOffers.length === 0;
+
+  if (fetchingStatus === RequestStatus.Pending) {
+    return <LoadingPage/>;
+  }
+
   return (
     <div className="page">
       <Helmet>
@@ -31,7 +39,7 @@ export default function FavoritesPage() {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {favoriteCities.map((city) => <FavoritesList key={city} city={city} favoriteOffers={favoriteOffers} />)}
+              {isEmpty ? <FavoritesEmpty/> : <FavoritesList favoriteOffers={favoriteOffers} />}
             </ul>
           </section>
         </div>

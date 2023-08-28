@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import { logoutAction } from '../store/api-actions';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { MouseEvent, useMemo } from 'react';
+import { MouseEvent, useMemo, useCallback } from 'react';
 import { getAuthorizationStatus, getUserInfo } from '../store/user-process/user-process-selectors';
-import { getFavoriteOffers } from '../store/offers/offers-selectors';
+import { getFavorites } from '../store/favorites/favorites-selectors';
 
 export default function Header() {
   const dispatch = useAppDispatch();
@@ -12,12 +12,12 @@ export default function Header() {
   const isLoggedIn = useMemo(() => userStatus === AuthorizationStatus.Auth, [userStatus]);
 
   const userInfo = useAppSelector(getUserInfo);
-  const favorites = useAppSelector(getFavoriteOffers);
+  const favorites = useAppSelector(getFavorites);
 
-  const handleLogout = (evt: MouseEvent<HTMLAnchorElement>) => {
+  const handleLogout = useCallback((evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     dispatch(logoutAction());
-  };
+  }, [dispatch]);
 
   return (
     <nav className="header__nav">

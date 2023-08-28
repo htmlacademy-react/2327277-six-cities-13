@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace, CITIES_LOCATIONS } from '../../../const';
-import { fetchOffersAction, fetchFullOfferAction, fetchNearbyOffersAction, fetchFavoritesAction } from '../api-actions';
+import { fetchOffersAction, fetchFullOfferAction, fetchNearbyOffersAction } from '../api-actions';
 import { OffersProcess } from '../../../types/state';
-import { City } from '../../../types/offer-types';
+import { City, FavoritesStatusData } from '../../../types/offer-types';
 
 const defaultCity = CITIES_LOCATIONS[0];
 
@@ -11,10 +11,11 @@ const initialState : OffersProcess = {
   offers: [],
   fullOffer: null,
   nearbyOffers: [],
-  favorites: [],
+  favoriteOffers: [],
   isOffersDataLoading: false,
   isFullOfferDataLoading: false,
   isNearbyOffersLoading: false,
+  isFavoriteOffersLoading: false,
   hasError: false,
 };
 
@@ -24,7 +25,13 @@ export const offersData = createSlice({
   reducers: {
     setActiveCity(state, action: PayloadAction<City>) {
       state.city = action.payload;
-    }
+    },
+    updateFavoriteOffer: (state, action: PayloadAction<FavoritesStatusData>) => {
+      const currentOfferIndex = state.offers.findIndex(
+        (offer) => offer.id === action.payload.id
+      );
+      state.offers[currentOfferIndex].isFavorite = action.payload.isFavorite;
+    },
   },
   extraReducers(builder) {
     builder
@@ -59,12 +66,8 @@ export const offersData = createSlice({
       })
       .addCase(fetchNearbyOffersAction.rejected, (state) => {
         state.isNearbyOffersLoading = false;
-      })
-      .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
-        state.favorites = action.payload;
       });
-
   },
 });
 
-export const {setActiveCity} = offersData.actions;
+export const {setActiveCity, updateFavoriteOffer} = offersData.actions;

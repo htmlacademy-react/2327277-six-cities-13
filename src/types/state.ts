@@ -4,7 +4,7 @@ import { City } from './offer-types';
 import { OfferPreview } from './offer-types';
 import { Offer } from './offer-types';
 import { Review } from './review-types';
-import { AuthorizationStatus } from '../const';
+import { AuthorizationStatus, RequestStatus } from '../const';
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
@@ -16,16 +16,22 @@ export type OffersProcess = {
   offers: OfferPreview[];
   fullOffer: Offer | null;
   nearbyOffers: OfferPreview[];
-  favorites: OfferPreview[];
+  favoriteOffers: OfferPreview[];
   isOffersDataLoading: boolean;
   isFullOfferDataLoading: boolean;
   isNearbyOffersLoading: boolean;
+  isFavoriteOffersLoading: boolean;
   hasError: boolean;
 }
 
 export type Reviews = {
   reviews: Review[];
   isReviewsDataLoading: boolean;
+}
+
+export type FavoritesData = {
+  favorites: OfferPreview[];
+  fetchingStatusFavorites: RequestStatus;
 }
 
 export type State = ReturnType<typeof store.getState>;
