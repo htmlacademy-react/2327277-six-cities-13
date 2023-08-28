@@ -1,7 +1,7 @@
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse} from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { getToken } from './token';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 type DetailMessageType = {
   type: string;

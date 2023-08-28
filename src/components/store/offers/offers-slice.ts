@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace, CITIES_LOCATIONS } from '../../../const';
-
-import { fetchOffersAction, fetchFullOfferAction, fetchNearbyOffersAction} from '../api-actions';
+import { fetchOffersAction, fetchFullOfferAction, fetchNearbyOffersAction } from '../api-actions';
 import { OffersProcess } from '../../../types/state';
 import { City, FavoritesStatusData } from '../../../types/offer-types';
 

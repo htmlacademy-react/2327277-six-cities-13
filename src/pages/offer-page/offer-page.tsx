@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { OfferPreview } from '../../types/offer-types';
 import { ReviewForm } from '../../components/review-form/review-form';
-import { ReviewsList } from '../../components/review-list/reviews-list';
+import { ReviewsList } from '../../components/reviews-list/reviews-list';
 import { useState, useEffect } from 'react';
 import Map from '../../components/map/map';
 import { OffersList } from '../../components/offers-list/offers-list';
@@ -26,7 +26,7 @@ export default function OfferPage() {
   const currentOffer = useAppSelector(getFullOffer);
   const isFullOfferLoaded = useAppSelector(getIsFullOfferDataLoading);
   const isReviewsLoaded = useAppSelector(getIsReviewsDataLoading);
-  const nearbyOffersList = useAppSelector(getNearbyOffers).slice(0, 3);
+  const nearbyOffersList = useAppSelector(getNearbyOffers);
   const isNearbyOffersLoaded = useAppSelector(getIsNearbyOffersLoading);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
@@ -50,6 +50,8 @@ export default function OfferPage() {
     const cityOffer = nearbyOffersList.find((offer) => offer.id === id);
     setSelectedOffer(cityOffer);
   };
+
+  const slicedOffers = nearbyOffersList.slice(0,3);
 
   return (
     <div className="page">
@@ -100,7 +102,7 @@ export default function OfferPage() {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <OffersList
-              offers={nearbyOffersList}
+              offers={slicedOffers}
               onCardHover={handleListItemHover}
               isNear
             />

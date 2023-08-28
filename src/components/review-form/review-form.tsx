@@ -1,4 +1,4 @@
-import { FormEvent, ChangeEventHandler, useState , Fragment} from 'react';
+import { FormEvent, ChangeEventHandler, useState , Fragment } from 'react';
 import { postCommentAction } from '../store/api-actions';
 import { useAppDispatch } from '../../hooks';
 

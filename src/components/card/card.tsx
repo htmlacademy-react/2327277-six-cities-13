@@ -16,6 +16,8 @@ export default function Card({offer, onCardHover, isNear}:CardProps) {
   const {id, title, type, price, previewImage, isPremium, rating} = offer;
   const [, setOfferId] = useState('');
   const [activeFavorite, setActiveFavorite] = useState(offer.isFavorite);
+  const handleBookmarkButtonClick = () => setActiveFavorite((prev) => !prev);
+
   const handleCardHover = (event: MouseEvent<HTMLLIElement>) => {
     if (onCardHover === undefined) {
       return;
@@ -24,6 +26,7 @@ export default function Card({offer, onCardHover, isNear}:CardProps) {
     setOfferId(id);
     onCardHover(id);
   };
+
   const handleCardOut = (event: MouseEvent<HTMLLIElement>) => {
     if (onCardHover === undefined) {
       return;
@@ -32,6 +35,7 @@ export default function Card({offer, onCardHover, isNear}:CardProps) {
     setOfferId('');
     onCardHover('');
   };
+
   return (
     <article
       className={classNames(
@@ -62,7 +66,7 @@ export default function Card({offer, onCardHover, isNear}:CardProps) {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <BookmarkButton id={id} isFavorite={activeFavorite} isDetailed = {false} onClick={() => setActiveFavorite((prev) => !prev)}/>
+          <BookmarkButton id={offer.id} isFavorite={activeFavorite} type='place-card' onClick={handleBookmarkButtonClick}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

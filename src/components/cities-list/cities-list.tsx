@@ -6,7 +6,6 @@ import { setActiveCity } from '../store/offers/offers-slice';
 import { getActiveCity } from '../store/offers/offers-selectors';
 import { MouseEvent, memo, useCallback } from 'react';
 
-
 const CitiesListComponent = () => {
   const dispatch = useAppDispatch();
   const selectedCity = useAppSelector(getActiveCity);

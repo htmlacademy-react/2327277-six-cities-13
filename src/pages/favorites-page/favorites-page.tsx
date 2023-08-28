@@ -1,13 +1,12 @@
 import { Helmet } from 'react-helmet-async';
 import { FavoritesList } from '../../components/favorites/favorites-list';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, RequestStatus } from '../../const';
 import Header from '../../components/header/header';
 import HeaderLogo from '../../components/header/header-logo';
 import { useAppSelector } from '../../hooks';
 import { getFavorites, getFavoritesFetchingStatus } from '../../components/store/favorites/favorites-selectors';
 import LoadingPage from '../loading-page/loading-page';
-import { RequestStatus } from '../../const';
 import { FavoritesEmpty } from './favorites-empty';
 
 export default function FavoritesPage() {
@@ -16,9 +15,7 @@ export default function FavoritesPage() {
   const isEmpty = favoriteOffers.length === 0;
 
   if (fetchingStatus === RequestStatus.Pending) {
-    return (
-      <LoadingPage/>
-    );
+    return <LoadingPage/>;
   }
 
   return (

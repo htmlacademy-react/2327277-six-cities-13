@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { RequestStatus, NameSpace } from '../../../const';
 import { FavoritesData } from '../../../types/state';
 import { fetchFavoritesAction, addFavorite, deleteFavorite } from '../api-actions';

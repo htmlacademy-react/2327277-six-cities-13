@@ -1,8 +1,8 @@
-import {Link, generatePath} from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 import { OfferPreview } from '../../types/offer-types';
-import {AppRoute} from '../../const';
-import {BookmarkButton} from '../bookmark-button/bookmark-button';
-import {useState} from 'react';
+import { AppRoute } from '../../const';
+import { BookmarkButton } from '../bookmark-button/bookmark-button';
+import { useState } from 'react';
 
 type FavoriteCardProps = {
   offer: OfferPreview;
@@ -25,7 +25,7 @@ export function FavoritesCard({offer}: FavoriteCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <BookmarkButton id={offer.id} isFavorite={activeFavorite} onClick={handleBookmarkButtonClick}/>
+          <BookmarkButton id={offer.id} isFavorite={activeFavorite} type='place-card' onClick={handleBookmarkButtonClick}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

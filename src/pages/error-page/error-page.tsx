@@ -1,16 +1,19 @@
 import { useAppDispatch } from '../../hooks';
 import { fetchOffersAction } from '../../components/store/api-actions';
+import { memo } from 'react';
 
-export default function ErrorPage() {
+const ErrorComponent = () => {
   const dispatch = useAppDispatch();
+
+  const handleGetError = () => {
+    dispatch(fetchOffersAction());
+  };
 
   return (
     <>
       <p className="error__text">Не удалось загрузить предложения аренды</p>
       <button
-        onClick={() => {
-          dispatch(fetchOffersAction());
-        }}
+        onClick={handleGetError}
         className="replay replay--error"
         type="button"
       >
@@ -18,4 +21,6 @@ export default function ErrorPage() {
       </button>
     </>
   );
-}
+};
+
+export const ErrorPage = memo(ErrorComponent);
