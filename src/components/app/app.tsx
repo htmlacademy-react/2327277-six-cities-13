@@ -1,4 +1,4 @@
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
@@ -19,17 +19,21 @@ import { getAuthCheckedStatus, getAuthorizationStatus } from '../store/user-proc
 
 export default function App(): JSX.Element {
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchOffersAction());
-    dispatch(checkAuthAction());
-    dispatch(fetchFavoritesAction());
-  }, [dispatch]);
-
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isOffersStatusLoading = useAppSelector(getIsOffersDataLoading);
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const hasError = useAppSelector(getErrorStatus);
+
+  useEffect(() => {
+    dispatch(fetchOffersAction());
+    dispatch(checkAuthAction());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoritesAction());
+    }
+  }, [dispatch, authorizationStatus]);
 
   if (!isAuthChecked || isOffersStatusLoading) {
     return (
