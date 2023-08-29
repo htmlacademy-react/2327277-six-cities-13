@@ -12,7 +12,7 @@ import NotFoundPage from '../not-found-page/not-found-page';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchFullOfferAction, fetchReviewsAction, fetchNearbyOffersAction } from '../../components/store/api-actions';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, NEARBY_OFFERS_COUNT } from '../../const';
 import { getFullOffer, getNearbyOffers, getIsFullOfferDataLoading, getIsNearbyOffersLoading } from '../../components/store/offers/offers-selectors';
 import { getIsReviewsDataLoading } from '../../components/store/reviews/reviews-selectors';
 import { getAuthorizationStatus } from '../../components/store/user-process/user-process-selectors';
@@ -51,7 +51,8 @@ export default function OfferPage() {
     setSelectedOffer(cityOffer);
   };
 
-  const slicedOffers = nearbyOffersList.slice(0,3);
+  const nearbyOffers = nearbyOffersList.slice(0, NEARBY_OFFERS_COUNT);
+  const offersMarkers = nearbyOffers && [...nearbyOffers, currentOffer];
 
   return (
     <div className="page">
@@ -92,9 +93,10 @@ export default function OfferPage() {
           <section className="offer__map map">
             <Map
               className='offer'
-              offers={nearbyOffersList}
+              offers={offersMarkers}
               city={currentOffer.city}
               selectedOffer={selectedOffer}
+              currentOffer={currentOffer}
             />
           </section>
         </section>
@@ -102,7 +104,7 @@ export default function OfferPage() {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <OffersList
-              offers={slicedOffers}
+              offers={nearbyOffers}
               onCardHover={handleListItemHover}
               isNear
             />

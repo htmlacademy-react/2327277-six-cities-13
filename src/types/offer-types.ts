@@ -28,16 +28,7 @@ export type OfferPreview = {
   previewImage: string;
 }
 
-export type Offer = {
-  id: string;
-  title: string;
-  type: string;
-  price: number;
-  city: City;
-  location: Location;
-  isFavorite: boolean;
-  isPremium: boolean;
-  rating: number;
+export type Offer = OfferPreview & {
   description: string;
   bedrooms: number;
   goods: string[];

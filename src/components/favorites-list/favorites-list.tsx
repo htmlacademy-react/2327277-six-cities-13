@@ -1,4 +1,4 @@
-import { FavoritesCard } from './favorites-card';
+import { FavoritesCard } from '../favorites-card/favorites-card';
 import { OfferPreview } from '../../types/offer-types';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';

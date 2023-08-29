@@ -1,3 +1,5 @@
+import { City } from './types/offer-types';
+
 export enum AppRoute {
   Root = '/',
   Login = '/login',
@@ -12,7 +14,7 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const CITIES_LOCATIONS = [
+export const CITIES_LOCATIONS: City[] = [
   {
     name: 'Paris',
     location: {
@@ -100,3 +102,5 @@ export enum FavoriteStatus {
   Add = 1,
   Delete = 0,
 }
+
+export const NEARBY_OFFERS_COUNT = 3;

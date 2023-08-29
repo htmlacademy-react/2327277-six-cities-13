@@ -4,9 +4,9 @@ import { State, AppDispatch } from '../../types/state';
 import { Offer, OfferPreview } from '../../types/offer-types';
 import { saveToken, dropToken } from '../services/token';
 import { Review, Comment } from '../../types/review-types';
-import { UserData } from '../../types/user-data';
+import { UserData } from '../../types/user-data-types';
 import { APIRoute, FavoriteStatus, NameSpace } from '../../const';
-import { AuthData } from '../../types/auth-data';
+import { AuthData } from '../../types/auth-data-types';
 
 export const fetchOffersAction = createAsyncThunk<OfferPreview[], undefined, {
   dispatch: AppDispatch;
