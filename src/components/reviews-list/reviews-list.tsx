@@ -1,6 +1,6 @@
 import { useAppSelector } from '../../hooks';
 import { sortReviewByDate } from '../../utils';
-import { ReviewItem } from '../review-card/review-item';
+import { ReviewItem } from '../review-card/review-card';
 import { getReviews } from '../store/reviews/reviews-selectors';
 
 export function ReviewsList() {

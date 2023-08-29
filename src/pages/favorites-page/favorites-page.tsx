@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { FavoritesList } from '../../components/favorites/favorites-list';
+import { FavoritesList } from '../../components/favorites-list/favorites-list';
 import { Link } from 'react-router-dom';
 import { AppRoute, RequestStatus } from '../../const';
 import Header from '../../components/header/header';

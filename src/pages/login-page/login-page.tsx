@@ -1,12 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 import HeaderLogo from '../../components/header/header-logo';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useRef, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../components/store/api-actions';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { AuthData } from '../../types/auth-data';
+import { AuthData } from '../../types/auth-data-types';
 import { getAuthorizationStatus } from '../../components/store/user-process/user-process-selectors';
+import { RandomCityButton } from '../../components/random-city/random-city';
 
 export default function LoginPage(){
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -64,11 +65,7 @@ export default function LoginPage(){
             </form>
           </section>
           <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Root}>
-                <span>Amsterdam</span>
-              </Link>
-            </div>
+            <RandomCityButton/>
           </section>
         </div>
       </main>

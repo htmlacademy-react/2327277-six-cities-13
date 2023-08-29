@@ -5,7 +5,7 @@ import { memo } from 'react';
 const ErrorComponent = () => {
   const dispatch = useAppDispatch();
 
-  const handleGetError = () => {
+  const handleErrorButtonClick = () => {
     dispatch(fetchOffersAction());
   };
 
@@ -13,7 +13,7 @@ const ErrorComponent = () => {
     <>
       <p className="error__text">Не удалось загрузить предложения аренды</p>
       <button
-        onClick={handleGetError}
+        onClick={handleErrorButtonClick}
         className="replay replay--error"
         type="button"
       >

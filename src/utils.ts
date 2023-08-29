@@ -31,3 +31,9 @@ function compare(a: Review, b: Review) {
 export function sortReviewByDate(reviews: Review[]): Review[] {
   return reviews.slice().sort(compare).slice(0, MAX_REVIEWS_AMOUNT);
 }
+
+export function getRandomArrayElement<City>(array: City[]): City {
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+}
+

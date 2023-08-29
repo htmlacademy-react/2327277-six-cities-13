@@ -1,5 +1,5 @@
 import { store } from '../components/store';
-import { UserData } from './user-data';
+import { UserData } from './user-data-types';
 import { City } from './offer-types';
 import { OfferPreview } from './offer-types';
 import { Offer } from './offer-types';
