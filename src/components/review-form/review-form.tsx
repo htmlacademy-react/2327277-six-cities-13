@@ -1,9 +1,9 @@
-import { FormEvent, ChangeEventHandler, useState , Fragment } from 'react';
+import { FormEvent, ChangeEventHandler, useState , Fragment, useEffect } from 'react';
 import { postCommentAction } from '../store/api-actions';
-import { useAppDispatch } from '../../hooks';
-
-const MIN_COMMENT_LENGTH = 50;
-const MAX_COMMENT_LENGTH = 140;
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { MIN_COMMENTS_LENGTH, MAX_COMMENTS_LENGTH, RequestStatus } from '../../const';
+import { getSendingCommentStatus } from '../store/reviews/reviews-selectors';
+import { dropSendingStatus } from '../store/reviews/reviews-slice';
 
 type ReviewFormProps = {
   offerId: string;
@@ -22,10 +22,19 @@ export function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
+  const reviewStatus = useAppSelector(getSendingCommentStatus);
 
   const isValid = rating !== 0
-    && comment.length >= MIN_COMMENT_LENGTH
-    && comment.length <= MAX_COMMENT_LENGTH;
+    && comment.length >= MIN_COMMENTS_LENGTH
+    && comment.length <= MAX_COMMENTS_LENGTH;
+
+  useEffect(() => {
+    if (reviewStatus === RequestStatus.Success) {
+      setComment('');
+      setRating(0);
+      dispatch(dropSendingStatus());
+    }
+  }, [dispatch, reviewStatus]);
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = ({
     target,
@@ -41,18 +50,17 @@ export function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(postCommentAction({
-      id: offerId,
-      comment: comment,
-      rating: rating,
-    }));
-
-    setRating(0);
-    setComment('');
+    if (isValid) {
+      dispatch(postCommentAction({
+        id: offerId,
+        comment: comment,
+        rating: rating,
+      }));
+    }
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit} >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -69,6 +77,7 @@ export function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
                 type="radio"
                 checked={Number(rating) === Number(score)}
                 onChange={handleInputChange}
+                disabled={reviewStatus === RequestStatus.Pending}
               />
               <label
                 htmlFor={`${score}-stars`}
@@ -89,18 +98,19 @@ export function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={handleTexAreaChange}
+        disabled={reviewStatus === RequestStatus.Pending}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set{' '}
           <span className="reviews__star">rating</span> and describe
           your stay with at least{' '}
-          <b className="reviews__text-amount">{MIN_COMMENT_LENGTH} characters</b>.
+          <b className="reviews__text-amount">{MIN_COMMENTS_LENGTH} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || reviewStatus === RequestStatus.Success}
         >
           Submit
         </button>

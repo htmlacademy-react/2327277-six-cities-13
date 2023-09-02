@@ -104,3 +104,19 @@ export enum FavoriteStatus {
 }
 
 export const NEARBY_OFFERS_COUNT = 3;
+
+export const MIN_COMMENTS_LENGTH = 50;
+
+export const MAX_COMMENTS_LENGTH = 300;
+
+export const MAX_RATING = 5;
+
+export const MAX_REVIEWS_AMOUNT = 10;
+
+export const MAX_IMAGES_COUNT = 6;
+
+export const OFFER_TYPES = {
+  apartment: 'Apartment',
+  room: 'Private room',
+  house: 'House',
+  hotel: 'Hotel'} as const;

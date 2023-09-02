@@ -3,19 +3,29 @@ import { FavoritesList } from '../../components/favorites-list/favorites-list';
 import { Link } from 'react-router-dom';
 import { AppRoute, RequestStatus } from '../../const';
 import Header from '../../components/header/header';
-import HeaderLogo from '../../components/header/header-logo';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getFavorites, getFavoritesFetchingStatus } from '../../components/store/favorites/favorites-selectors';
 import LoadingPage from '../loading-page/loading-page';
 import { FavoritesEmpty } from './favorites-empty';
+import {useEffect} from 'react';
+import { fetchFavoritesAction } from '../../components/store/api-actions';
 
 export default function FavoritesPage() {
   const favoriteOffers = useAppSelector(getFavorites);
   const fetchingStatus = useAppSelector(getFavoritesFetchingStatus);
   const isEmpty = favoriteOffers.length === 0;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFavoritesAction());
+  }, [dispatch]);
 
   if (fetchingStatus === RequestStatus.Pending) {
     return <LoadingPage/>;
+  }
+
+  if(isEmpty){
+    return <FavoritesEmpty/>;
   }
 
   return (
@@ -23,23 +33,14 @@ export default function FavoritesPage() {
       <Helmet>
         <title>{'6 cities: favorites'}</title>
       </Helmet>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <HeaderLogo />
-            </div>
-            <Header/>
-          </div>
-        </div>
-      </header>
+      <Header/>
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {isEmpty ? <FavoritesEmpty/> : <FavoritesList favoriteOffers={favoriteOffers} />}
+              <FavoritesList favoriteOffers={favoriteOffers} />
             </ul>
           </section>
         </div>

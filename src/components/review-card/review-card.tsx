@@ -6,10 +6,11 @@ type ReviewProps = {
 
 export function ReviewItem({ review }: ReviewProps) {
   const date = new Date(review.date);
-  const formatter = new Intl.DateTimeFormat('us', {
+  const formatter = new Intl.DateTimeFormat('en', {
     month: 'long',
     year: 'numeric',
   });
+
   return (
     <>
       <div className="reviews__user user">

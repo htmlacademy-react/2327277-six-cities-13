@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 type OffersListProps = {
   offers: OfferPreview[];
-  onCardHover: (id: string) => void;
+  onCardHover?: (id: string) => void;
   isNear: boolean;
 }
 

@@ -1,31 +1,37 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../../const';
+import { NameSpace, RequestStatus } from '../../../const';
 import { fetchReviewsAction, postCommentAction } from '../api-actions';
 import { Reviews } from '../../../types/state';
 
 const initialState: Reviews = {
   reviews: [],
-  isReviewsDataLoading: false,
+  sendingCommentStatus: RequestStatus.Unsent
 };
 
 export const reviewsData = createSlice({
   name: NameSpace.Reviews,
   initialState,
-  reducers: {},
+  reducers: {
+    dropSendingStatus: (state) => {
+      state.sendingCommentStatus = RequestStatus.Unsent;
+    }
+  },
   extraReducers(builder) {
     builder
-      .addCase(fetchReviewsAction.pending, (state) => {
-        state.isReviewsDataLoading = true;
-      })
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
-        state.isReviewsDataLoading = false;
       })
-      .addCase(fetchReviewsAction.rejected, (state) => {
-        state.isReviewsDataLoading = false;
+      .addCase(postCommentAction.pending, (state) => {
+        state.sendingCommentStatus = RequestStatus.Pending;
       })
       .addCase(postCommentAction.fulfilled, (state, action) => {
+        state.sendingCommentStatus = RequestStatus.Success;
         state.reviews.push(action.payload);
+      })
+      .addCase(postCommentAction.rejected, (state) => {
+        state.sendingCommentStatus = RequestStatus.Error;
       });
   }
 });
+
+export const {dropSendingStatus} = reviewsData.actions;
