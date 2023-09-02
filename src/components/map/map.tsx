@@ -32,31 +32,40 @@ export default function Map({ className, city, offers, selectedOffer, currentOff
   useEffect(() => {
     if (map && city) {
       const markerLayer = layerGroup().addTo(map);
-      map.setView(
-        {
-          lat: city.location.latitude,
-          lng: city.location.longitude,
-        },
-        city.location.zoom,
-      );
+
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
-          lng: offer.location.longitude
+          lng: offer.location.longitude,
         });
-        marker.setIcon(
-          selectedOffer && offer.id === selectedOffer.id
-            ? currentCustomIcon
-            : defaultCustomIcon
-        )
+
+        marker
+          .setIcon(
+            selectedOffer && offer.id === selectedOffer.id
+              ? currentCustomIcon
+              : defaultCustomIcon
+          )
           .addTo(markerLayer);
+
+        if (offer.location.latitude === currentOffer?.location.latitude &&
+        offer.location.longitude === currentOffer?.location.longitude) {
+          marker.setIcon(currentCustomIcon);
+        }
       });
+
+      map.setView(
+        [
+          city.location.latitude,
+          city.location.longitude,
+        ],
+        city.location.zoom
+      );
 
       return () => {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, city, selectedOffer, currentOffer]);
+  }, [map, offers, selectedOffer, currentOffer, city]);
 
   const style = className === 'cities' ? '100%' : '579px';
 

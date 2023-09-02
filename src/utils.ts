@@ -2,8 +2,7 @@ import { OfferPreview } from './types/offer-types';
 import { Review } from './types/review-types';
 import { Sorting } from './types/sorting-types';
 import { SortingMap } from './const';
-
-const MAX_REVIEWS_AMOUNT = 20;
+import { MAX_REVIEWS_AMOUNT } from './const';
 
 export function getOffersByCity (city: string | undefined, offers: OfferPreview[]): OfferPreview[]{
   return offers.filter((offer) => offer.city.name === city);
@@ -36,4 +35,5 @@ export function getRandomArrayElement<City>(array: City[]): City {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
 }
+
 

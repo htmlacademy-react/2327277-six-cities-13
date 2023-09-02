@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Offer } from '../../types/offer-types';
 import { BookmarkButton } from '../bookmark-button/bookmark-button';
+import { MAX_RATING, OFFER_TYPES } from '../../const';
 
 type DetailedOfferProps = {
   offer: Offer;
@@ -24,14 +25,14 @@ export function DetailedOffer({offer}: DetailedOfferProps): JSX.Element {
       </div>
       <div className="offer__rating rating">
         <div className="offer__stars rating__stars">
-          <span style={{width: `${Math.round(offer.rating) * 100 / 5}%`}}></span>
+          <span style={{width: `${Math.round(offer.rating) * 100 / MAX_RATING}%`}}></span>
           <span className="visually-hidden">Rating</span>
         </div>
         <span className="offer__rating-value rating__value">{offer.rating}</span>
       </div>
       <ul className="offer__features">
         <li className="offer__feature offer__feature--entire">
-          {offer.type}
+          {OFFER_TYPES[offer.type as keyof typeof OFFER_TYPES]}
         </li>
         <li className="offer__feature offer__feature--bedrooms">
           {offer.bedrooms} Bedroom{offer.bedrooms > 1 && 's'}

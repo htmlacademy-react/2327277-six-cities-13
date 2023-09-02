@@ -5,8 +5,9 @@ import { Offer, OfferPreview } from '../../types/offer-types';
 import { saveToken, dropToken } from '../services/token';
 import { Review, Comment } from '../../types/review-types';
 import { UserData } from '../../types/user-data-types';
-import { APIRoute, FavoriteStatus, NameSpace } from '../../const';
+import { APIRoute, FavoriteStatus, NameSpace, AppRoute } from '../../const';
 import { AuthData } from '../../types/auth-data-types';
+import { redirectToRoute } from './action';
 
 export const fetchOffersAction = createAsyncThunk<OfferPreview[], undefined, {
   dispatch: AppDispatch;
@@ -86,9 +87,10 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {
   extra: AxiosInstance;
 }>(
   `${NameSpace.User}/login`,
-  async ({login: email, password}, {extra: api}) => {
+  async ({login: email, password}, {dispatch, extra: api}) => {
     const { data } = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(data.token);
+    dispatch(redirectToRoute(AppRoute.Root));
     return data;
   },
 );

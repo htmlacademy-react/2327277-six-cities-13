@@ -12,7 +12,7 @@ export type UserProcess = {
 };
 
 export type OffersProcess = {
-  city: City | undefined;
+  city: City;
   offers: OfferPreview[];
   fullOffer: Offer | null;
   nearbyOffers: OfferPreview[];
@@ -26,7 +26,7 @@ export type OffersProcess = {
 
 export type Reviews = {
   reviews: Review[];
-  isReviewsDataLoading: boolean;
+  sendingCommentStatus: RequestStatus;
 }
 
 export type FavoritesData = {
