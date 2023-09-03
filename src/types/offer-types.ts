@@ -36,8 +36,3 @@ export type Offer = OfferPreview & {
   images: string[];
   maxAdults: number;
 }
-
-export type FavoritesStatusData = {
-  id: string;
-  isFavorite: boolean;
-};

@@ -16,11 +16,9 @@ export type OffersProcess = {
   offers: OfferPreview[];
   fullOffer: Offer | null;
   nearbyOffers: OfferPreview[];
-  favoriteOffers: OfferPreview[];
   isOffersDataLoading: boolean;
   isFullOfferDataLoading: boolean;
   isNearbyOffersLoading: boolean;
-  isFavoriteOffersLoading: boolean;
   hasError: boolean;
 }
 
