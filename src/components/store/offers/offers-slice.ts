@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace, CITIES_LOCATIONS } from '../../../const';
 import { fetchOffersAction, fetchFullOfferAction, fetchNearbyOffersAction } from '../api-actions';
 import { OffersProcess } from '../../../types/state';
-import { City, FavoritesStatusData } from '../../../types/offer-types';
+import { City } from '../../../types/offer-types';
 
 const defaultCity = CITIES_LOCATIONS[0];
 
@@ -11,11 +11,9 @@ const initialState : OffersProcess = {
   offers: [],
   fullOffer: null,
   nearbyOffers: [],
-  favoriteOffers: [],
   isOffersDataLoading: false,
   isFullOfferDataLoading: false,
   isNearbyOffersLoading: false,
-  isFavoriteOffersLoading: false,
   hasError: false,
 };
 
@@ -25,12 +23,6 @@ export const offersData = createSlice({
   reducers: {
     setActiveCity(state, action: PayloadAction<City>) {
       state.city = action.payload;
-    },
-    updateFavoriteOffer: (state, action: PayloadAction<FavoritesStatusData>) => {
-      const currentOfferIndex = state.offers.findIndex(
-        (offer) => offer.id === action.payload.id
-      );
-      state.offers[currentOfferIndex].isFavorite = action.payload.isFavorite;
     },
   },
   extraReducers(builder) {
@@ -70,4 +62,4 @@ export const offersData = createSlice({
   },
 });
 
-export const {setActiveCity, updateFavoriteOffer} = offersData.actions;
+export const {setActiveCity} = offersData.actions;

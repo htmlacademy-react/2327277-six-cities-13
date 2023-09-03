@@ -125,8 +125,9 @@ export const addFavorite = createAsyncThunk<OfferPreview, OfferPreview['id'], {
   extra: AxiosInstance;
 }>(
   `${NameSpace.Favorites}/addFavorite`,
-  async (id, {extra: api}) => {
+  async (id, {dispatch,extra: api}) => {
     const {data} = await api.post<OfferPreview>(`${APIRoute.Favorites}/${id}/${FavoriteStatus.Add}`);
+    dispatch(fetchOffersAction());
     return data;
   }
 );
@@ -137,8 +138,10 @@ export const deleteFavorite = createAsyncThunk<OfferPreview, OfferPreview['id'],
   extra: AxiosInstance;
 }>(
   `${NameSpace.Favorites}/deleteFavorite`,
-  async (id, {extra: api}) => {
+  async (id, {dispatch,extra: api}) => {
     const {data} = await api.post<OfferPreview>(`${APIRoute.Favorites}/${id}/${FavoriteStatus.Delete}`);
+    dispatch(fetchOffersAction());
     return data;
   }
 );
+
